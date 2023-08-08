@@ -71,6 +71,9 @@
              <div class="row">
                  @foreach($reviews as $review)
                  <div class="offset-md-5 col-md-5">
+                    <!--★レビューの表示-->
+                 <h3 class="review-score-color">{{ str_repeat('★',$review->score) }}</h3>
+                 
                      <p class="h3">{{$review->content}}</p>
                      <label>{{$review->created_at}} {{$review->user->name}}</label>
                  </div>
@@ -82,6 +85,14 @@
                  <div class="offset-md-5 col-md-5">
                      <form method="POST" action="{{ route('reviews.store') }}">
                          @csrf
+                         <h4>評価</h4><!--★レビューの選択-->
+                         <select name="score" class="form-control m-2 review-score-color">
+                             <option value="5" class="review-score-color">★★★★★</option>
+                             <option value="4" class="review-score-color">★★★★</option>
+                             <option value="3" class="review-score-color">★★★</option>
+                             <option value="2" class="review-score-color">★★</option>
+                             <option value="1" class="review-score-color">★</option>
+                         </select>
                          <h4>レビュー内容</h4>
                          @error('content')
                              <strong>レビュー内容を入力してください</strong>

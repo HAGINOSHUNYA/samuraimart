@@ -56,7 +56,8 @@
                  </div>
              </div>
          </div>
-
+        <!--この処理では商品を購入するためのフォームを追加しています。
+        合計金額が0円の場合は「購入を確定する」ボタンをクリックできないようにしています。-->
          <form method="post" action="{{route('carts.destroy')}}" class="d-flex justify-content-end mt-3">
              {{ csrf_field() }}
              <input type="hidden" name="_method" value="DELETE">
@@ -64,10 +65,27 @@
                  買い物を続ける
              </a>
              @if ($total > 0)
-             <button type="submit" class="btn samuraimart-submit-button">購入を確定する</button>
+             <div class="btn samuraimart-submit-button" data-bs-toggle="modal" data-bs-target="#buy-confirm-modal">購入を確定する</div>
              @else
-             <button type="submit" class="btn samuraimart-submit-button disabled">購入を確定する</button>
+             <div class="btn samuraimart-submit-button disabled" data-bs-toggle="modal" data-bs-target="#buy-confirm-modal">購入を確定する</div>
              @endif
+
+             <div class="modal fade" id="buy-confirm-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                 <div class="modal-dialog">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h5 class="modal-title" id="staticBackdropLabel">購入を確定しますか？</h5>
+                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="閉じる">
+                                 <span aria-hidden="true">&times;</span>
+                             </button>
+                         </div>
+                         <div class="modal-footer">
+                             <button type="button" class="btn samuraimart-favorite-button border-dark text-dark" data-bs-dismiss="modal">閉じる</button>
+                             <button type="submit" class="btn samuraimart-submit-button">購入</button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
          </form>
      </div>
  </div>

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;//商品のコントローラ
+use App\Http\Controllers\ReviewController;//レビューのコントローラ
+use App\Http\Controllers\UserController;//ユーザーのコントローラ
+use App\Http\Controllers\CartController;//カートのコントローラ
+use App\Http\Controllers\WebController;//トップページのコントローラ
 
 
 /*
@@ -18,17 +19,15 @@ use App\Http\Controllers\CartController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',  [WebController::class, 'index']);
 
-Route::controller(CartController::class)->group(function () {//コントローラまとめ
+Route::controller(CartController::class)->group(function () {//カートコントローラまとめ
     Route::get('users/carts', 'index')->name('carts.index');//カート内表示
     Route::post('users/carts', 'store')->name('carts.store');//カートに入れる機能
     Route::delete('users/carts', 'destroy')->name('carts.destroy');//削除？
 });
 
-Route::controller(UserController::class)->group(function () {//コントローラまとめ
+Route::controller(UserController::class)->group(function () {//ユーザーコントローラまとめ
     Route::get('users/mypage', 'mypage')->name('mypage');
     Route::get('users/mypage/edit', 'edit')->name('mypage.edit');
     Route::put('users/mypage', 'update')->name('mypage.update');

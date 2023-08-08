@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
  use Illuminate\Support\Facades\Auth;
+ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -69,7 +70,7 @@ class CartController extends Controller
  
          $count += 1;//新しくデータベースに登録するカートのデータ用にカートのIDを一つ増やしています
          Cart::instance(Auth::user()->id)->store($count);//ユーザーのIDを使ってカート内の商品情報などをデータベースへと保存しています。
- 
+ //dd("stop");
          DB::table('shoppingcart')->where('instance', Auth::user()->id)->where('number', null)->update(['number' => $count, 'buy_flag' => true]);
         //購入済みフラグをtrueにして、購入処理を行っています。
         //DB::table('shoppingcart')では、データベース内のshoppingcartテーブルへのアクセスを行っています。
