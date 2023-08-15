@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\MajorCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,19 +19,28 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         //
-        if ($request->category !== null) {
+        if ($request->category !== null) {//リクエストに入っているcategoryの中がnullでなければ
             $products = Product::where('category_id', $request->category)->sortable()->paginate(15);
+            //where(検索対象カラム,検索数値)?->ソート->ページネーション（ページ数）
             $total_count = Product::where('category_id', $request->category)->count();
-            $category = Category::find($request->category);
+            //当該カテゴリーの商品数を表示するため
+            $category = Category::find($request->category);//カテゴリー名を取得します。
+            $major_category = MajorCategory::find($category->major_category_id);
+
+
         } else {
             $products = Product::sortable()->paginate(15);
             $total_count = "";
             $category = null;
+            $major_category = null; 
         }
         $categories = Category::all();
-         $major_category_names = Category::pluck('major_category_name')->unique();
- 
-         return view('products.index', compact('products', 'category', 'categories', 'major_category_names', 'total_count'));
+        $major_categories = MajorCategory::all();
+         //$major_category_names = Category::pluck('major_category_name')->unique();
+         //全カテゴリーのデータからmajor_category_nameのカラムのみを取得します。
+         //その上でunique()を使い、重複している部分を削除しています。
+        dump($categories);
+         return view('products.index', compact('products', 'category', 'major_category', 'categories', 'major_categories', 'total_count'));
     }
 
     /**

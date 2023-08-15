@@ -34,7 +34,7 @@ Route::controller(UserController::class)->group(function () {//ユーザーコ�
     Route::get('users/mypage/password/edit', 'edit_password')->name('mypage.edit_password');//パスワード変更ページ
     Route::put('users/mypage/password', 'update_password')->name('mypage.update_password'); //パスワード変更機能
     Route::get('users/mypage/favorite', 'favorite')->name('mypage.favorite');//お気に入りの表示
-
+    Route::delete('users/mypage/delete', 'destroy')->name('mypage.destroy');
 });
 
 
