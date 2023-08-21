@@ -34,15 +34,19 @@ class ProductController extends AdminController
         //$grid->column('category_id', __('Category id'));
         $grid->column('category.name', __('Category Name'));//idではなくnameをカラム
         $grid->column('image', __('Image'))->image();//CRUD画面で商品画像の設定や表示ができるようになります。
+        $grid->column('recommend_flag', __('Recommend Flag'));//おすすめ商品
+        $grid->column('carriage_flag', __('Carriage Flag'));//送料フラグの表示
         $grid->column('created_at', __('Created at'))->sortable();
         $grid->column('updated_at', __('Updated at'))->sortable();
         //$grid->column('image', __('Image'));
 
-        $grid->filter(function($filter) {
+        $grid->filter(function($filter) {//フィルター
             $filter->like('name', '商品名');
             $filter->like('description', '商品説明');
             $filter->between('price', '金');
             $filter->in('category_id', 'カテゴリー')->multipleSelect(Category::all()->pluck('name', 'id'));
+            $filter->equal('recommend_flag', 'おすすめフラグ')->select(['0' => 'false', '1' => 'true']);
+            $filter->equal('carriage_flag', '送料フラグ')->select(['0' => 'false', '1' => 'true']);
         });
 
         return $grid;
@@ -65,6 +69,8 @@ class ProductController extends AdminController
         //$show->field('category_id', __('Category id'));
         $show->field('category.name', __('Category Name'));//
         $show->field('image', __('Image'))->image();//CRUD画面で商品画像の設定や表示ができるようになります。
+        $show->field('recommend_flag', __('Recommend Flag'));//おすすめ商品
+        $show->field('carriage_flag', __('Carriage Flag'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
         //$show->field('image', __('Image'));
@@ -90,6 +96,8 @@ class ProductController extends AdminController
         $form->select('category_id', __('Category Name'))->options(Category::all()->pluck('name', 'id'));
         //存在するカテゴリー名から選択できるようにしています。
         $form->image('image', __('Image'));
+        $form->switch('recommend_flag', __('Recommend Flag'));//おすすめ商品
+        $form->switch('carriage_flag', __('Carriage Flag'));
 
         return $form;
     }

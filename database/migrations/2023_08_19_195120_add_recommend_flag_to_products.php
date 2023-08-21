@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->boolean('deleted_flag')->default(false);
+        Schema::table('products', function (Blueprint $table) {
+            //おすすめ商品のカラム
+            $table->boolean('recommend_flag')->default(false);
+
         });
     }
 
@@ -26,9 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             //
-            $table->dropColumn('deleted_flag');
+            $table->dropColumn('recommend_flag');
         });
     }
 };
