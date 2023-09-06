@@ -8,6 +8,7 @@ use App\Models\MajorCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Review;
 
 class ProductController extends Controller
 {
@@ -82,11 +83,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
-    {
-        //
+    {//dd($review)
+        
         $reviews = $product->reviews()->get();
+        $ave = round($product->reviews->avg('score'));
   
-        return view('products.show', compact('product', 'reviews'));
+    return view('products.show', compact('product', 'reviews','ave'));
     }
 
     /**

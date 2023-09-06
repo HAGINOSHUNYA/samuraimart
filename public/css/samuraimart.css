@@ -212,3 +212,100 @@ label {
   color: #ffffff;
   background-color: #d94b0e;
 }
+/**レビュー平均*/
+.star-rating{
+  border: 1px solid #000;
+  position: relative;
+ 
+  z-index: 3;
+  
+ 
+}
+/*.star-rating::after{前面に適用
+  position:absolute;
+  z-index: -1;
+  content: "★★★★★";
+  color: #939393;
+}*/
+/*.star-rating::before{背面に適用
+  
+
+}*/
+
+/* 0.5刻みの場合 */
+/*属性セレクタ*/
+.star-rating::after [data-rate="5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="4.5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★★★";
+  color: #18be0f;
+}
+
+.star-rating[data-rate=4] {
+  /* 適用するスタイル */
+  content: attr();
+  content: "★★★★";
+  color: #18be0f;
+
+ 
+}
+
+.star-rating::after[data-rate="3.5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="3"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="2.5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="2"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="1.5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★★★★★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="1"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "★";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="0.5"] {
+  /* 適用するスタイル */
+  overflow: hidden; 
+  content: "";
+  color: #18be0f;
+}
+
+.star-rating::after[data-rate="0"] {
+  /* 適用するスタイル */
+}

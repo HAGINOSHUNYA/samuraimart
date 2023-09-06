@@ -35,6 +35,10 @@ Route::controller(UserController::class)->group(function () {//ユーザーコ�
     Route::put('users/mypage/password', 'update_password')->name('mypage.update_password'); //パスワード変更機能
     Route::get('users/mypage/favorite', 'favorite')->name('mypage.favorite');//お気に入りの表示
     Route::delete('users/mypage/delete', 'destroy')->name('mypage.destroy');
+    Route::get('users/mypage/cart_history', 'cart_history_index')->name('mypage.cart_history');//履歴一覧
+    Route::get('users/mypage/cart_history/{num}', 'cart_history_show')->name('mypage.cart_history_show');//履歴詳細
+    Route::get('users/mypage/register_card', 'register_card')->name('mypage.register_card');//クレジットカード
+     Route::post('users/mypage/token', 'token')->name('mypage.token');//クレジットカード
 });
 
 

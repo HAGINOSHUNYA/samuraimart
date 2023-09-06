@@ -71,7 +71,22 @@
              <hr class="w-100">
              <h3 class="float-left">カスタマーレビュー</h3>
          </div>
- 
+
+         
+         <!-- 商品名の下に平均評価-->
+
+        
+         <span class="star-rating" star-rating="$ave"><!--親-->
+         {{str_repeat('★',$ave) }}
+
+
+              
+       
+       
+</span><!--親終了-->
+
+
+
          <div class="offset-1 col-10">
              <!-- レビューを実装する箇所になります -->
 

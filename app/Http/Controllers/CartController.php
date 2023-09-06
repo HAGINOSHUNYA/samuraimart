@@ -119,6 +119,7 @@ class CartController extends Controller
         $count += 1;#$count = $count+1
         $number += 1;#$number = $number+1　　
         $cart = Cart::instance(Auth::user()->id)->content();
+        /**カートの中の情報を */
 
         $price_total = 0;
         $qty_total = 0;
@@ -141,7 +142,7 @@ class CartController extends Controller
 
         Cart::instance(Auth::user()->id)->store($count);
         /**
-         * 
+         * データの登録
          */
 
         DB::table('shoppingcart')->where('instance', Auth::user()->id)
@@ -156,6 +157,26 @@ class CartController extends Controller
                     'updated_at' => date("Y/m/d H:i:s")
                 ]
             );
+
+            //決済機能
+            /**購入処理時に.envに設定したAPIキーを使用して、
+             * PAY.JPに決済情報を送信しています。
+             * これで購入時にクレジットカード決済ができるようになりました。 */
+
+            
+         $pay_jp_secret = env('PAYJP_SECRET_KEY');
+         \Payjp\Payjp::setApiKey($pay_jp_secret);
+ 
+         $user = Auth::user();
+ 
+         $res = \Payjp\Charge::create(
+             [
+                 "customer" => $user->token,
+                 "amount" => $price_total,
+                 "currency" => 'jpy'
+             ]
+         );
+
 
          Cart::instance(Auth::user()->id)->destroy();
  

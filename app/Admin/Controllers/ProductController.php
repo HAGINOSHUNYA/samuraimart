@@ -8,6 +8,11 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Admin\Extensions\Tools\CsvImport;//インポート機能
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
+use Illuminate\Http\Request;
 
 class ProductController extends AdminController
 {
@@ -48,6 +53,10 @@ class ProductController extends AdminController
             $filter->equal('recommend_flag', 'おすすめフラグ')->select(['0' => 'false', '1' => 'true']);
             $filter->equal('carriage_flag', '送料フラグ')->select(['0' => 'false', '1' => 'true']);
         });
+
+        $grid->tools(function ($tools) {
+            $tools->append(new CsvImport());
+        });//インポートボタンの表示
 
         return $grid;
     }
@@ -101,4 +110,54 @@ class ProductController extends AdminController
 
         return $form;
     }
+
+
+
+    //インポート機能のアクション開始
+    //CSVを解析して、商品データを登録しています。
+    
+    public function csvImport(Request $request)
+     {
+         $file = $request->file('file');
+         $lexer_config = new LexerConfig();
+         $lexer = new Lexer($lexer_config);
+ 
+         $interpreter = new Interpreter();
+         $interpreter->unstrict();
+         $rows = array();
+
+         // インポートする値を$rowに代入
+         $interpreter->addObserver(function (array $row) use (&$rows) {
+             $rows[] = $row;
+         });
+ 
+         // CSVデータをパース（データを解析しプログラムが使えるようなデータの構造に変換する）
+         $lexer->parse($file, $interpreter);
+         foreach ($rows as $key => $value) {
+ 
+             if (count($value) == 7) {
+                 Product::create([
+                     'name' => $value[0],
+                     'description' => $value[1],
+                     'price' => $value[2],
+                     'category_id' => $value[3],
+                     'image' => $value[4],
+                     'recommend_flag' => $value[5],
+                     'carriage_flag' => $value[6],
+                 ]);
+             }
+         }
+ 
+         return response()->json(
+             ['data' => '成功'],
+             200,
+             [],
+             JSON_UNESCAPED_UNICODE
+         );
+     }
+
+    //インポート機能のアクション終了
+
 }
+
+

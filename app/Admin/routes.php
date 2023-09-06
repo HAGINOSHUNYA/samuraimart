@@ -5,6 +5,7 @@ use App\Admin\Controllers\CategoryController;//カテゴリコントローラと
 use App\Admin\Controllers\ProductController;//商品コントローラとの紐づけUSE宣言
 use App\Admin\Controllers\MajorCategoryController;//親カテゴリーとの紐づけ
 use App\Admin\Controllers\UserController;//ユーザー管理の紐づけ
+use App\Admin\Controllers\ShoppingCartController;//売上管理画面
 Admin::routes();
 
 Route::group([
@@ -19,6 +20,8 @@ Route::group([
     $router->resource('products', ProductController::class);//商品の管理画面のルーティング
     $router->resource('major-categories', MajorCategoryController::class);//親カテゴリ画面のルーティング
     $router->resource('users', UserController::class);//ユーザー管理
+    $router->resource('shopping-carts', ShoppingCartController::class)->only('index');//売上管理
+    $router->post('products/import', [ProductController::class, 'csvImport']);//インポート画面のルーティング
 
 
 

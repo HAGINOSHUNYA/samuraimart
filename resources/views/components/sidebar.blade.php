@@ -11,9 +11,9 @@
 
              @endif
          @endforeach
-     @php
+     <!--@php
      dump($category->name)
-     @endphp
+     @endphp-->
      @endforeach
     
  </div>
